@@ -1,0 +1,8 @@
+---
+- name: Update gravity lists
+  hosts: pihole
+  become: yes
+  become_user: pihole
+
+  tasks:
+  - name: get content
