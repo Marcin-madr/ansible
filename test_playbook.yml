@@ -1,0 +1,7 @@
+---
+- name: "My test playbook"
+  hosts: localhost
+
+  tasks:
+  - name: Hello world print
+    debug: msg="sup boi"
