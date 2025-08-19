@@ -1,0 +1,22 @@
+---
+- name: Pi-Hole installation via Ansible
+  hosts: pihole
+  become: yes
+  vars:
+    pihole_script_url: "www.pihole.com"
+    pihole_install_path: "/etc/pihole/pihole-install.sh"
+    
+  tasks:
+  - name: Network configuration
+
+  - name: User creation
+
+  - name: download script
+    ansible.builtin.get_url:
+      url: "{{ pihole_script_url }}"
+      dest: "{{ pihole_install_path }}"
+      mode: '0755'
+
+  - name: unattended installation
+
+  - name: cleanup after installation
