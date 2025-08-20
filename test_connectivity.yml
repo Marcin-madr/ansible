@@ -1,0 +1,7 @@
+---
+- name: Test connectivity
+  hosts: all
+
+  tasks:
+  - name: check remote vm's
+    ping:
