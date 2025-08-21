@@ -3,7 +3,7 @@
 # Używa oficjalnego skryptu instalacyjnego w trybie bezobsługowym.
 
 - name: Automatic pihole installation
-  hosts: pihole_hosts
+  hosts: 192.168.0.176
   become: yes
   vars:
     pihole_install_script_url: "https://install.pi-hole.net"
