@@ -32,7 +32,7 @@
     - name: Configure static IP
       ansible.builtin.lineinfile:
         path: /etc/network/interfaces
-        line: "address 192.168.0.171"
+        line: "address 192.168.0.176"
         regexp: '^address'
         state: present
 
