@@ -6,7 +6,7 @@
   hosts: pihole_hosts
   become: yes
   vars:
-    pihole_install_script_url: "https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Finstall.pi-hole.net%2F&data=05%7C02%7Cmarcin.drozd%40ing.com%7Cf7d272e58f7f4c673faa08dde0b9b158%7C587b6ea13db94fe1a9d785d4c64ce5cc%7C0%7C0%7C638913810325757448%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BZSEihih6LrJDdYpQs620dMv%2FJ9xO4T4fEAMFcEHXIU%3D&reserved=0"
+    pihole_install_script_url: "https://install.pihole.net"
     pihole_install_path: "/tmp/pihole-install.sh"
 
   tasks:
