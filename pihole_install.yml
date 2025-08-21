@@ -1,7 +1,4 @@
 ---
-# Ten playbook automatyzuje instalację Pi-hole na zdalnym serwerze.
-# Używa oficjalnego skryptu instalacyjnego w trybie bezobsługowym.
-
 - name: Automatic pihole installation
   hosts: 192.168.0.176
   become: yes
@@ -10,6 +7,11 @@
     pihole_install_path: "/tmp/pihole-install.sh"
 
   tasks:
+    - name: Download installation script
+      ansible.builtin.get_url: 
+      url: https://install.pi-hole.net
+      dest: /tmp/basic-install.sh
+
     - name: Pobieranie skryptu instalacyjnego Pi-hole
       ansible.builtin.get_url:
         url: "{{ pihole_install_script_url }}"

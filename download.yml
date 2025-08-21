@@ -1,0 +1,10 @@
+---
+- name: Automatic pihole installation
+  hosts: 192.168.0.176
+  become: yes
+
+  tasks:
+      - name: Download installation script
+        ansible.builtin.get_url: 
+        url: https://install.pi-hole.net
+        dest: /tmp/basic-install.sh
