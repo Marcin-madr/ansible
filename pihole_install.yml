@@ -1,40 +1,33 @@
 ---
-- name: Automatic pihole installation
-  hosts: 192.168.0.176
+# Ten playbook instaluje Pi-hole w trybie bezobsługowym (unattended).
+# Jest to idealne rozwiązanie do automatyzacji wdrożeń.
+
+- name: Automatyczna instalacja Pi-hole w trybie bezobsługowym
+  hosts: pihole_hosts
   become: yes
   vars:
-    pihole_install_script_url: "https://install.pi-hole.net"
+    pihole_install_script_url: "https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Finstall.pi-hole.net%2F&data=05%7C02%7Cmarcin.drozd%40ing.com%7Cf7d272e58f7f4c673faa08dde0b9b158%7C587b6ea13db94fe1a9d785d4c64ce5cc%7C0%7C0%7C638913810325757448%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BZSEihih6LrJDdYpQs620dMv%2FJ9xO4T4fEAMFcEHXIU%3D&reserved=0"
     pihole_install_path: "/tmp/pihole-install.sh"
 
   tasks:
-    - name: Download installation script
-      ansible.builtin.get_url: 
-      url: https://install.pi-hole.net
-      dest: /tmp/basic-install.sh
-
-    - name: Pobieranie skryptu instalacyjnego Pi-hole
+    - name: Pobieranie skryptu instalacyjnego
       ansible.builtin.get_url:
         url: "{{ pihole_install_script_url }}"
         dest: "{{ pihole_install_path }}"
         mode: '0755'
-      # To zadanie pobiera skrypt instalacyjny z oficjalnej strony Pi-hole
-      # i zapisuje go w tymczasowym katalogu.
+      # To zadanie pobiera oficjalny skrypt instalacyjny z internetu.
 
-    - name: Run installation - unattended mode
+    - name: Uruchomienie instalacji z flagą --unattended
       ansible.builtin.shell:
         cmd: "{{ pihole_install_path }} --unattended"
       args:
         creates: /etc/pihole/setupVars.conf
+      # Flaga `--unattended` zapewnia, że instalacja przebiegnie bez
+      # konieczności interakcji ze strony użytkownika.
+      # `creates` zapobiega ponownemu uruchomieniu zadania po pierwszej instalacji.
 
-    - name: Cleanup after installation
+    - name: Usunięcie tymczasowego skryptu
       ansible.builtin.file:
         path: "{{ pihole_install_path }}"
         state: absent
-
-    - name: Configure static IP
-      ansible.builtin.lineinfile:
-        path: /etc/network/interfaces
-        line: "address 192.168.0.176"
-        regexp: '^address'
-        state: present
-
+      # Sprzątanie po zakończonej instalacji.
