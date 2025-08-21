@@ -6,5 +6,5 @@
   tasks:
       - name: Download installation script
         ansible.builtin.get_url: 
-        url: https://install.pi-hole.net
-        dest: /tmp/basic-install.sh
+          url: https://install.pi-hole.net
+          dest: /tmp/basic-install.sh
