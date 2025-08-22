@@ -1,6 +1,6 @@
 ---
 - name: "My test playbook"
-  hosts: localhost
+  hosts: all
 
   tasks:
   - name: Hello world print
