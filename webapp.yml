@@ -1,44 +1,48 @@
-- name: Install and Setup Apache
-hosts: myservers
-become: yes
-tasks:
-- name: Install latest version of Apache
-apt:
-name: apache2
-update_cache: yes
-state: latest
+---
+- name: Instalacja serwera WWW Apache
+  hosts: webservers
+  become: yes
+  # Ten playbook ma na celu instalację i uruchomienie serwera WWW Apache.
+  # "hosts: webservers" oznacza, że będzie działał na wszystkich maszynach
+  # zdefiniowanych w grupie "webservers" w pliku inventory.
+  # "become: yes" podnosi uprawnienia do roota (sudo) na zdalnym hoście.
 
-- name: Create document root for domain configured in host variable
-file:
-path: "/var/www/{{ http_host }}"
-state: directory
-owner: www-data
-group: www-data
-mode: '0755'
+  tasks:
+    - name: Zaktualizuj indeksy pakietów
+      ansible.builtin.apt:
+        update_cache: yes
+      # To zadanie zapewnia, że lista pakietów (cache) jest aktualna
+      # przed próbą instalacji nowego oprogramowania. Jest to dobra praktyka.
 
-- name: Copy your index file
-template:
-src: "files/index-template.html"
-dest: "/var/www/{{ http_host }}/index.html"
+    - name: Zainstaluj pakiet Apache
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+      # Używa modułu "apt" do instalacji pakietu o nazwie "apache2".
+      # "state: present" zapewnia, że pakiet jest zainstalowany.
 
-- name: Set up VirtualHost
-template:
-src: "files/apache-template.conf"
-dest: "/etc/apache2/sites-available/{{ http_conf }}"
+    - name: Włącz i uruchom usługę Apache
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: yes
+      # Moduł "service" zarządza usługami. Ustawia "state: started",
+      # aby upewnić się, że Apache jest uruchomiony,
+      # oraz "enabled: yes", aby włączyć go po restarcie systemu.
 
-- name: Enable site
-command: a2ensite {{ http_conf }}
-notify:
-- restart-apache
+    - name: Otwórz port 80 (HTTP) na zaporze UFW (dla Ubuntu)
+      ansible.builtin.ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+      when: ansible_os_family == "Debian"
+      # To zadanie jest warunkowe ("when") i uruchomi się tylko na
+      # systemach z rodziny Debian (np. Ubuntu), które często używają UFW.
+      # Otwiera port 80, aby umożliwić dostęp do serwera WWW.
 
-- name: UFW firewall allow HTTP on port {{ http_port }}
-ufw:
-rule: allow
-port: "{{ http_port }}"
-proto: tcp
-
-handlers:
-- name: restart-apache
-service:
-name: apache2
-state: restarted
+    - name: Utwórz domyślną stronę internetową
+      ansible.builtin.copy:
+        content: "<html><body><h1>Witaj w Apache!</h1><p>Ta strona zostala wdrożona przez Ansible.</p></body></html>"
+        dest: /var/www/html/index.html
+        mode: '0644'
+      # Kopiuje prosty kod HTML do pliku index.html, nadpisując domyślną stronę.
