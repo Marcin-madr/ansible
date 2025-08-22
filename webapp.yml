@@ -40,9 +40,9 @@
       # systemach z rodziny Debian (np. Ubuntu), które często używają UFW.
       # Otwiera port 80, aby umożliwić dostęp do serwera WWW.
 
-    - name: Utwórz domyślną stronę internetową
-      ansible.builtin.copy:
-        content: "<html><body><h1>Witaj w Apache!</h1><p>Ta strona zostala wdrożona przez Ansible.</p></body></html>"
-        dest: /var/www/html/index.html
-        mode: '0644'
-      # Kopiuje prosty kod HTML do pliku index.html, nadpisując domyślną stronę.
+    # - name: Utwórz domyślną stronę internetową
+    #   ansible.builtin.copy:
+    #     content: "<html><body><h1>Witaj w Apache!</h1><p>Ta strona zostala wdrożona przez Ansible.</p></body></html>"
+    #     dest: /var/www/html/index.html
+    #     mode: '0644'
+    #   # Kopiuje prosty kod HTML do pliku index.html, nadpisując domyślną stronę.
