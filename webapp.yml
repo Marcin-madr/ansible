@@ -2,43 +2,29 @@
 - name: Instalacja serwera WWW Apache
   hosts: webservers
   become: yes
-  # Ten playbook ma na celu instalację i uruchomienie serwera WWW Apache.
-  # "hosts: webservers" oznacza, że będzie działał na wszystkich maszynach
-  # zdefiniowanych w grupie "webservers" w pliku inventory.
-  # "become: yes" podnosi uprawnienia do roota (sudo) na zdalnym hoście.
 
   tasks:
-    - name: Zaktualizuj indeksy pakietów
+    - name: Update pack
       ansible.builtin.apt:
         update_cache: yes
-      # To zadanie zapewnia, że lista pakietów (cache) jest aktualna
-      # przed próbą instalacji nowego oprogramowania. Jest to dobra praktyka.
 
-    - name: Zainstaluj pakiet Apache
+    - name: install apache2
       ansible.builtin.apt:
         name: apache2
         state: present
-      # Używa modułu "apt" do instalacji pakietu o nazwie "apache2".
-      # "state: present" zapewnia, że pakiet jest zainstalowany.
 
-    - name: Włącz i uruchom usługę Apache
+    - name: turn on service and put in started mode
       ansible.builtin.service:
         name: apache2
         state: started
         enabled: yes
-      # Moduł "service" zarządza usługami. Ustawia "state: started",
-      # aby upewnić się, że Apache jest uruchomiony,
-      # oraz "enabled: yes", aby włączyć go po restarcie systemu.
 
-    - name: Otwórz port 80 (HTTP) na zaporze UFW (dla Ubuntu)
+    - name: port 80 opening / update rule on firewall
       ansible.builtin.ufw:
         rule: allow
         port: '80'
         proto: tcp
       when: ansible_os_family == "Debian"
-      # To zadanie jest warunkowe ("when") i uruchomi się tylko na
-      # systemach z rodziny Debian (np. Ubuntu), które często używają UFW.
-      # Otwiera port 80, aby umożliwić dostęp do serwera WWW.
 
     # - name: Utwórz domyślną stronę internetową
     #   ansible.builtin.copy:
