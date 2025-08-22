@@ -25,9 +25,3 @@
         port: '80'
         proto: tcp
       when: ansible_os_family == "Debian"
-
-    # - name: Create simple website
-    #   ansible.builtin.copy:
-    #     content: "<html><body><h1>hello</h1><p>This webpage was deployed with Ansible.</p></body></html>"
-    #     dest: /var/www/html/index.html
-    #     mode: '0644'

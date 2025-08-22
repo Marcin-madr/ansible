@@ -5,10 +5,7 @@ import sys
 import json
 import argparse
 
-# Symulacja danych z twojej sieci
-# Możesz tu dodać logikę do skanowania sieci
-# np. za pomocą biblioteki `scapy` lub `nmap`
-# Na potrzeby przykładu, użyjemy stałych danych.
+
 HOSTS_DATA = {
     "webservers": {
         "hosts": ["192.168.1.10", "192.168.1.11"],
