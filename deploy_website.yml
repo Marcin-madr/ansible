@@ -1,0 +1,11 @@
+---
+- name: Deploy website
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Deploy website on webserver(s)
+      ansible.builtin.copy:
+        src: /etc/ansible/temp/index.html
+        dest: /var/www/html/index.html
+        mode: '0644'
