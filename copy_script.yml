@@ -1,0 +1,10 @@
+---
+- name: Copy script playbook
+  hosts: 192.168.0.176
+
+  tasks:
+  - name: Copy files to remote target
+    ansible.builtin.copy:
+      src: /etc/ansible/unattended.sh
+      dest: /tmp/unattended.sh
+      mode: '0755'
