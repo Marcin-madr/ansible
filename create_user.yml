@@ -1,0 +1,16 @@
+---
+- name: Add new user 
+  hosts: all
+
+  tasks:
+  - name: Create a new user
+    ansible.builtin.user:
+      name: '{{ username }}'
+      home: /home/'{{ username}}'
+      shell: /bin/bash
+
+  - name: Password change for new user
+    ansible.builtin.user:
+      name: '{{ username }}'
+      update_password: always
+      password: "{{ newpassword|password_hash('sha512') }}"
