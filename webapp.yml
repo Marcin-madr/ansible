@@ -1,0 +1,41 @@
+---
+- name: Deploy Web Application
+  hosts: webservers
+  become: yes
+
+  tasks:
+    # 1. Install Docker
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    # 2. Start and Enable Docker Service
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # 3. Pull the Application Image
+    - name: Pull the application Docker image
+      docker_image:
+        name: nginx
+        tag: latest
+        source: pull
+
+    # 4. Run the Application Container
+    - name: Run the application container
+      docker_container:
+        name: my_web_app
+        image: nginx:latest
+        state: started
+        ports:
+          - "80:80"
+
+    # 5. Verify the Application is Running
+    - name: Verify application is accessible
+      uri:
+        url: http://localhost
+        status_code: 200
