@@ -20,7 +20,7 @@ fi
 # --- INSTALACJA PI-HOLE ---
 echo "Rozpoczynanie instalacji Pi-hole w trybie nienadzorowanym..."
 
-curl -sSL "https://install.pi-hole.net" pihole -a -p -y install
+curl -sSL "https://install.pi-hole.net" | PIHOLE_SKIP_OS_CHECK=true PIHOLE_WEBPASSWORD="${PIHOLE_WEBPASSWORD}" PIHOLE_DNS_1="${PIHOLE_DNS_1}" PIHOLE_DNS_2="${PIHOLE_DNS_2}" PIHOLE_BLOCKING_LISTS_URLS="${PIHOLE_BLOCKING_LISTS_URLS}" PIHOLE_TARGET_DIR="/etc/.pihole" pihole -a -p -y install
 
 if [ $? -eq 0 ]; then
     echo "✅ Pi-hole został pomyślnie zainstalowany!"
