@@ -1,6 +1,7 @@
 ---
 - name: Add new user 
   hosts: all
+  become: yes
 
   tasks:
   - name: Create a new user
