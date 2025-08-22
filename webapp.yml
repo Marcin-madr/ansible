@@ -26,9 +26,8 @@
         proto: tcp
       when: ansible_os_family == "Debian"
 
-    # - name: Utwórz domyślną stronę internetową
+    # - name: Create simple website
     #   ansible.builtin.copy:
-    #     content: "<html><body><h1>Witaj w Apache!</h1><p>Ta strona zostala wdrożona przez Ansible.</p></body></html>"
+    #     content: "<html><body><h1>hello</h1><p>This webpage was deployed with Ansible.</p></body></html>"
     #     dest: /var/www/html/index.html
     #     mode: '0644'
-    #   # Kopiuje prosty kod HTML do pliku index.html, nadpisując domyślną stronę.
